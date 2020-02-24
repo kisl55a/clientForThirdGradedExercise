@@ -1,19 +1,29 @@
-import React from 'react'
-import {View, Text, StyleSheet, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import ItemSmall from './ItemSmall'
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Home = () => {
+    const [itemsData, setItemsData] = useState([])
+    useEffect(() => {
+        fetch('https://graded-exercise-kidm.herokuapp.com/items/getAllItems')
+            .then(response => response.json())
+            .then(data => {
+                setItemsData(data)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
     return (
         <ScrollView>
-            <View  style={styles.container}>
-            <ItemSmall></ItemSmall>
-            <ItemSmall></ItemSmall>
-            <ItemSmall></ItemSmall>
-            <ItemSmall></ItemSmall>
-            <ItemSmall></ItemSmall>
+            <View style={styles.container}>
+                {itemsData.map(element => {
+                    return (
+                        <ItemSmall key={element.id} data={element}></ItemSmall>
+                      )
+                })}
             </View>
         </ScrollView>
     )
