@@ -30,6 +30,7 @@ const ItemSmall = (props) => {
 const styles = StyleSheet.create({
 
     box: {
+        backgroundColor: "#fff",
         width: "100%",
         marginVertical: 10,
         height: "auto",

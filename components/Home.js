@@ -17,7 +17,7 @@ const Home = () => {
     }, [])
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: "#fff"}}>
             <View style={styles.container}>
                 {itemsData.map(element => {
                     return (
