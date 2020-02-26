@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 import base64 from 'react-native-base64'
+import {useSelector, useDispatch} from 'react-redux'
+import allActions from '../src/actions'
 
 const Login = (props) => {
+    const currentUser = useSelector(state => state.currentUser)
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const sendLoginData = () => {
@@ -22,7 +26,11 @@ const Login = (props) => {
           .then(json => {
             console.log("Login successful")
             console.log("Received following JSON");
-            console.log(json.token);
+            dispatch(allActions.userActions.setUser({
+                  username: username,
+                  token: json.token
+              }))
+
           })
           .catch(error => {
             console.log("Error message:")
@@ -32,7 +40,7 @@ const Login = (props) => {
     return (
         <View style={styles.container}>
             <View style={{ alignSelf: "flex-start", backgroundColor: "#2196f3" }}>
-                <Text style={{ color: "white" }}>Login</Text>
+    <Text style={{ color: "white" }}>Login{currentUser.username}</Text>
             </View>
             <TextInput
                 name="username"
@@ -58,6 +66,7 @@ const Login = (props) => {
     )
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -66,4 +75,4 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     }
 })
-export default Login
+export default (Login)
