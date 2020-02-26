@@ -1,25 +1,59 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import base64 from 'react-native-base64'
 
-const Login = () => {
+const Login = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const sendLoginData = () => {
-      console.log('asdasda')
+        fetch("https://graded-exercise-kidm.herokuapp.com/users/login", {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Basic ${base64.encode(`${username}:${password}`)}`
+                
+            }),
+        })
+        .then(response => {
+            if (response.ok == false) {
+              throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+            }
+            return response.json();
+          })
+          .then(json => {
+            console.log("Login successful")
+            console.log("Received following JSON");
+            console.log(json.token);
+          })
+          .catch(error => {
+            console.log("Error message:")
+            console.log(error.message)
+          });
     }
     return (
         <View style={styles.container}>
-            <Text>Login {username}</Text>
+            <View style={{ alignSelf: "flex-start", backgroundColor: "#2196f3" }}>
+                <Text style={{ color: "white" }}>Login</Text>
+            </View>
             <TextInput
                 name="username"
                 style={{ height: "5%", width: "90%", borderColor: 'gray', borderWidth: 1 }}
                 onChangeText={(username) => setUsername(username)}
                 value={username}
             />
+            <TextInput
+                name="password"
+                style={{ height: "5%", width: "90%", borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={(password) => setPassword(password)}
+                value={password}
+            />
             <Button
                 title="Submit"
                 onPress={() => sendLoginData()}
             />
+             <Button
+        title="Register"
+        onPress={() => props.navigation.navigate('registration')}
+      />
         </View>
     )
 }

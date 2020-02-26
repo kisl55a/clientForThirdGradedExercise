@@ -6,6 +6,7 @@ import { Ionicons, Entypo } from 'react-native-vector-icons';
 import Registration from './Registration';
 import Search from './Search';
 import Login from './Login';
+import LoginRegisterNav from './LoginRegisterNav';
 const Tab = createBottomTabNavigator();
 
 const TabNav = (props) => {
@@ -20,19 +21,19 @@ const TabNav = (props) => {
         }}
       />
       <Tab.Screen name="Registration"
-        component={Registration}
+        component={LoginRegisterNav}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Entypo name="open-book" color={color} size={size} />)
         }}
       />
-     <Tab.Screen name="Login"
+     {/* <Tab.Screen name="Login"
         component={Login}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Entypo name="login" color={color} size={size} />)
         }}
-      />
+      /> */}
       <Tab.Screen name="Search"
         component={Search}
         options={{
