@@ -7,17 +7,16 @@ import Registration from './Registration';
 const Stack = createStackNavigator();
 
 const LoginRegisterNav = () => {
-    return (
+  return (
     <Stack.Navigator>
-         <Stack.Screen name="registration" options={{ title: 'Registration' }} >    
-          { props => <Registration {...props}/>}
-        </Stack.Screen>
-        <Stack.Screen name="login" options={{title:"Login"}}>
-          {props => <Login {...props}/>}
-        </Stack.Screen>
-       
-      </Stack.Navigator>
-    )
+      <Stack.Screen name="registration" options={{ title: 'Registration' }} >
+        {props => <Registration {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="login" options={{ title: "Login" }}>
+        {props => <Login {...props} />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  )
 }
 
 export default LoginRegisterNav
