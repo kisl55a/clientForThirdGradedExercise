@@ -4,43 +4,42 @@ import base64 from 'react-native-base64'
 import { useSelector, useDispatch } from 'react-redux'
 import allActions from '../src/actions'
 import { Ionicons, Entypo, AntDesign } from 'react-native-vector-icons';
-import { withOrientation } from 'react-navigation'
+import { withOrientation } from 'react-navigation';
 
 const Login = (props) => {
     const currentUser = useSelector(state => state.currentUser)
     const dispatch = useDispatch();
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const requestsFunctions = require('./functions/requestsFunctions')
+
     const sendLoginData = () => {
-        fetch("https://graded-exercise-kidm.herokuapp.com/users/login", {
-            method: 'GET',
-            headers: new Headers({
-                "Authorization": `Basic ${base64.encode(`${username}:${password}`)}`
-
-            }),
-        })
-            .then(response => {
-                if (response.ok == false) {
-                    throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-                }
-                return response.json();
-            })
-            .then(json => {
-                console.log("Login successful")
-                console.log("Received following JSON");
-                dispatch(allActions.userActions.setUser({
-                    username: username,
-                    token: json.token
-                }))
-
-            })
-            .catch(error => {
-                console.log("Error message:")
-                console.log(error.message)
-            });
+        if(username.trim() == '' || password.trim() == ''){
+            setMessage('Please input username and password')
+        } else {            
+            requestsFunctions.getToken("https://graded-exercise-kidm.herokuapp.com/users/login", username, password)
+                .then(json => {
+                    console.log("Login successful")
+                    console.log("Received following JSON");
+                    setMessage('')
+                    dispatch(allActions.userActions.setUser({
+                        username: username,
+                        token: json.token
+                    }))
+    
+                })
+                .catch(error => {
+                    console.log("Error message:")
+                    console.log(error.message)
+                    setMessage('Invalid username or password')
+                });
+        }
+  
     }
     return (
         <View style={styles.container}>
+            <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{message}</Text>
             <Text>Username</Text>
             <TextInput
                 name="username"
