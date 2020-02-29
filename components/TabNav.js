@@ -1,14 +1,11 @@
 import React from 'react'
-import { View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import { Ionicons, Entypo, AntDesign } from 'react-native-vector-icons';
-import Registration from './Registration';
 import Search from './Search';
-import Login from './Login';
 import LoginRegisterNav from './LoginRegisterNav';
 import { useSelector } from 'react-redux';
-import Profile from './Profile';
+import ProfileNav from './ProfileNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +27,7 @@ const TabNav = (props) => {
   const profileTab = () => {
     return(
       <Tab.Screen name="Profile"
-      component={Profile}
+      component={ProfileNav}
       options={{
         tabBarIcon: ({ color, size }) => (
           <AntDesign name="user" color={color} size={size} />)

@@ -7,17 +7,18 @@ import ProfileItemSmall from './ProfileItemSmall'
 import allActions from '../src/actions/index'
 const requestFunctions = require('./functions/requestsFunctions');
 
-const Profile = () => {
+const Profile = (props) => {
     const currentUser = useSelector(state => state.currentUser)
     const dispatch = useDispatch();
     const [itemsData, setItemsData] = useState([])
+    const [reloadTrigger, setReloadTrigger] = useState([])
     useEffect(() => {
         requestFunctions.authorizedGetRequest('https://graded-exercise-kidm.herokuapp.com/items/', currentUser.token)
             .then(data => {
                 setItemsData(data)
             })
             .catch(err => console.log(err))
-    }, [])
+    }, [reloadTrigger])
     return (
         <ScrollView style={{ backgroundColor: "#fff" }}>
             <View style={styles.container}>
@@ -42,7 +43,7 @@ const Profile = () => {
                 </View>
                 {itemsData.map(element => {
                     return (
-                        <ProfileItemSmall key={element.id} data={element}></ProfileItemSmall>
+                        <ProfileItemSmall {...props} key={element.id} data={element}></ProfileItemSmall>
                       )
                 })}
             </View>

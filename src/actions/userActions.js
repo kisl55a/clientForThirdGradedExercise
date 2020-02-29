@@ -5,6 +5,7 @@ const setUser = (userObj) => {
         payload: userObj
     }
 }
+
 export default {
     setUser,
 }
