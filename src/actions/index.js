@@ -1,7 +1,8 @@
 import userActions from './userActions'
-
+import itemActions from './itemActions'
 const allActions = {
-    userActions
+    userActions,
+    itemActions
 }
 
 export default allActions

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
+import allActions from '../src/actions'
 import ItemSmall from './ItemSmall'
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux'
 
 
 const Home = () => {
     const [itemsData, setItemsData] = useState([])
+    const trigger = useSelector(state => state.currentItem.trigger)
     useEffect(() => {
         fetch('https://graded-exercise-kidm.herokuapp.com/items/getAllItems')
             .then(response => response.json())
@@ -14,7 +17,7 @@ const Home = () => {
                 setItemsData(data)
             })
             .catch(err => console.log(err))
-    }, [])
+    }, [trigger])
 
     return (
         <ScrollView style={{backgroundColor: "#fff"}}>

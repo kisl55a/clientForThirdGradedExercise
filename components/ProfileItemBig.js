@@ -1,9 +1,11 @@
 import React from 'react'
+import allActions from '../src/actions'
 import { View, Text, Image, StyleSheet, Button } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
 const ProfileItemBig = (props) => {
     const data = props.route.params;
+    const dispatch = useDispatch();
     const requestFunctions = require('./functions/requestsFunctions')
     const currentUser = useSelector(state => state.currentUser)
     const deleteItem = () => {
@@ -11,6 +13,7 @@ const ProfileItemBig = (props) => {
         .then(data => {
             console.log('data: ', data);
             props.navigation.navigate('Profile')
+            dispatch(allActions.itemActions.setTrigger())
         })
         .catch(err => console.log(err))
     }

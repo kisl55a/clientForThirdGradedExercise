@@ -7,8 +7,10 @@ import ProfileItemSmall from './ProfileItemSmall'
 import allActions from '../src/actions/index'
 const requestFunctions = require('./functions/requestsFunctions');
 
+
 const Profile = (props) => {
     const currentUser = useSelector(state => state.currentUser)
+    const trigger = useSelector(state => state.currentItem.trigger)
     const dispatch = useDispatch();
     const [itemsData, setItemsData] = useState([])
     const [reloadTrigger, setReloadTrigger] = useState([])
@@ -18,7 +20,7 @@ const Profile = (props) => {
                 setItemsData(data)
             })
             .catch(err => console.log(err))
-    }, [reloadTrigger])
+    }, [trigger])
     return (
         <ScrollView style={{ backgroundColor: "#fff" }}>
             <View style={styles.container}>
