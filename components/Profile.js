@@ -13,7 +13,6 @@ const Profile = (props) => {
     const trigger = useSelector(state => state.currentItem.trigger)
     const dispatch = useDispatch();
     const [itemsData, setItemsData] = useState([])
-    const [reloadTrigger, setReloadTrigger] = useState([])
     useEffect(() => {
         requestFunctions.authorizedGetRequest('https://graded-exercise-kidm.herokuapp.com/items/', currentUser.token)
             .then(data => {
@@ -27,11 +26,8 @@ const Profile = (props) => {
                 <View style={styles.header}>
                     <Text style={{fontSize: 30, marginBottom: 10}}>Hello, {currentUser.username}</Text>
                     <View style={{flexDirection: "row"}}>
-                        <Button onPress={() =>
-                            dispatch(allActions.userActions.setUser({
-                                username: '',
-                                token: ''
-                            }))}
+                        <Button onPress={() => props.navigation.navigate('CreateNewItem')
+                            }
                             title='Add new item'
                         />
                         <Button onPress={() =>
