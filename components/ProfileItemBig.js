@@ -43,7 +43,7 @@ const ProfileItemBig = (props) => {
                 <Text style={{ marginVertical: 5 }}>Price: <Text>{data.price}</Text>$</Text>
             </View>
             <View style={{}}>
-                <Button title="Change Item" />
+                <Button title="Edit item" onPress={() => {props.navigation.navigate('EditItem',{...data})}}/>
                 <Text></Text>
                 <Button title="Delete Item" onPress={() => deleteItem()} />
             </View>

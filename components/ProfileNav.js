@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Profile from './Profile';
 import ProfileItemBig from './ProfileItemBig';
 import CreateNewItem from './CreateNewItem';
+import EditItem from './EditItem';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,9 @@ const LoginRegisterNav = () => {
       </Stack.Screen>
       <Stack.Screen name="CreateNewItem" options={{ title: "Create new item" }}>
         {props => <CreateNewItem {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="EditItem" options={{ title: "Edit item" }}>
+        {props => <EditItem {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   )
