@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Picker } from 'react-native'
+import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Picker } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker'
 import { useSelector, useDispatch } from 'react-redux'
+import allActions from '../src/actions'
 
 
 const CreateNewItem = (props) => {
-
+    const dispatch = useDispatch()
     const token = useSelector(state => state.currentUser.token)
     const requestFunctions = require('./functions/requestsFunctions')
     const [title, setTitle] = useState('');
@@ -45,22 +46,44 @@ const CreateNewItem = (props) => {
         setPostFormToSend(postForm)
     }
     const sendData = () => {
-        postFormToSend.append("title", title)
-        postFormToSend.append("description", description)
-        postFormToSend.append("location", location)
-        postFormToSend.append("category", category)
-        postFormToSend.append("price", price)
-        postFormToSend.append("deliveryType", deliveryType)
-        postFormToSend.append("contacts", contacts)
-        postFormToSend.append('date', new Date().toISOString().slice(0,10))
-        requestFunctions.createNewItem('http://192.168.1.17:4000/items', token, postFormToSend)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+        if (title.trim() !== '' &&
+            description.trim() !== '' &&
+            location.trim() !== '' &&
+            price.trim() !== '' &&
+            deliveryType.trim() !== '' &&
+            price.trim() !== '' &&
+            contacts.trim() !== '') {
+            postFormToSend.append("title", title)
+            postFormToSend.append("description", description)
+            postFormToSend.append("location", location)
+            postFormToSend.append("category", category)
+            postFormToSend.append("price", price)
+            postFormToSend.append("deliveryType", deliveryType)
+            postFormToSend.append("contacts", contacts)
+            postFormToSend.append('date', new Date().toISOString().slice(0, 10))
+            requestFunctions.createNewItem('https://graded-exercise-kidm.herokuapp.com/items', token, postFormToSend)
+                .then(res => {
+                    console.log(res)
+                    dispatch(allActions.itemActions.setTrigger())
+                    props.navigation.navigate('Profile')
+                })
+                .catch(err => {
+                    console.log('err: ', err);
+                    setPostFormToSend(undefined)
+                     Alert.alert('Failed')
+                    props.navigation.navigate('Profile')
+                })
+
+        } else {
+            Alert.alert('Fill all the input fields')
+        }
+
 
     }
 
     return (
         <ScrollView>
+
             <View style={styles.container}>
                 <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{}</Text>
                 <Text>Title</Text>
