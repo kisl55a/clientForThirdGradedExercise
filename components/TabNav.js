@@ -15,11 +15,11 @@ const TabNav = (props) => {
 
   const registrationTab = () => {
     return (
-      <Tab.Screen name="Registration"
+      <Tab.Screen name="Login"
         component={LoginRegisterNav}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="open-book" color={color} size={size} />)
+            <Entypo name="login" color={color} size={size} />)
         }}
       />
     )

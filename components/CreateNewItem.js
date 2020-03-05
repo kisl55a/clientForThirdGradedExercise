@@ -172,8 +172,8 @@ const CreateNewItem = (props) => {
                         width: 150,
                         marginBottom: 10
                     }}
-                    onPress={() => { }}>
-                    <Text>Login</Text>
+                    onPress={() => props.navigation.navigate('Profile')}>
+                    <Text>Back</Text>
                 </TouchableOpacity>
 
             </View>

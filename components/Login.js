@@ -82,7 +82,7 @@ const Login = (props) => {
                 marginBottom: 10
             }}
             onPress={() => props.navigation.navigate('registration')}>
-                <Text>Back </Text>
+                <Text>Registration </Text>
             </TouchableOpacity>
         </View>
     )
