@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import allActions from '../src/actions'
 
 
+
 const CreateNewItem = (props) => {
     const dispatch = useDispatch()
     const token = useSelector(state => state.currentUser.token)
@@ -53,6 +54,7 @@ const CreateNewItem = (props) => {
             deliveryType.trim() !== '' &&
             price.trim() !== '' &&
             contacts.trim() !== '') {
+        dispatch(allActions.itemActions.setVisibleToTrue())
             postFormToSend.append("title", title)
             postFormToSend.append("description", description)
             postFormToSend.append("location", location)
@@ -65,6 +67,7 @@ const CreateNewItem = (props) => {
                 .then(res => {
                     console.log(res)
                     dispatch(allActions.itemActions.setTrigger())
+                    dispatch(allActions.itemActions.setVisibleToFalse())
                     props.navigation.navigate('Profile')
                 })
                 .catch(err => {

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
 import ItemSmall from './ItemSmall'
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux'
+import ProgressLoader from 'rn-progress-loader';
+import allActions from '../src/actions'
 
 
 const Home = () => {
     const [itemsData, setItemsData] = useState([])
+    const dispatch = useDispatch();
+    const visible = useSelector(state => state.currentItem.visible)
     const trigger = useSelector(state => state.currentItem.trigger)
     useEffect(() => {
+        dispatch(allActions.itemActions.setVisibleToTrue())
         fetch('https://graded-exercise-kidm.herokuapp.com/items/getAllItems')
             .then(response => response.json())
             .then(data => {
+                dispatch(allActions.itemActions.setVisibleToFalse())
                 setItemsData(data)
             })
             .catch(err => console.log(err))
@@ -20,6 +26,14 @@ const Home = () => {
 
     return (
         <ScrollView style={{backgroundColor: "#fff"}}>
+              <View
+                style={{backgroundColor: "#06566e", justifyContent: 'center', alignItems: 'center', flex: 1}}>
+                <ProgressLoader
+                visible={visible}
+                isModal={true} isHUD={true}
+                hudColor={"#000000"}
+                color={"#FFFFFF"} />
+            </View>
             <View style={styles.container}>
                 {itemsData.map(element => {
                     return (

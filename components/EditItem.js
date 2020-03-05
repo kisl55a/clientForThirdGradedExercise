@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Picker } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker'
 import { useSelector, useDispatch } from 'react-redux'
 import allActions from '../src/actions'
 
-const EditItem = (props) => { const dispatch = useDispatch()
+const EditItem = (props) => {
+    const dispatch = useDispatch()
     const data = props.route.params;
     const token = useSelector(state => state.currentUser.token)
     const requestFunctions = require('./functions/requestsFunctions')
@@ -46,37 +47,39 @@ const EditItem = (props) => { const dispatch = useDispatch()
     }
     const sendData = () => {
         if (title.trim() !== '' &&
-        description.trim() !== '' &&
-        location.trim() !== '' &&
-        price.trim() !== '' &&
-        deliveryType.trim() !== '' &&
-        price.trim() !== '' &&
-        contacts.trim() !== '') {
-        postFormToSend.append("title", title)
-        postFormToSend.append("description", description)
-        postFormToSend.append("location", location)
-        postFormToSend.append("category", category)
-        postFormToSend.append("price", price)
-        postFormToSend.append("deliveryType", deliveryType)
-        postFormToSend.append("contacts", contacts)
-        postFormToSend.append('date', new Date().toISOString().slice(0, 10))
-        requestFunctions.editItem(`https://graded-exercise-kidm.herokuapp.com/items/${data.id}`, token, postFormToSend)
-            .then(res => {
-                console.log(res)
-                dispatch(allActions.itemActions.setTrigger())
-                props.navigation.navigate('Profile')
-            })
-            .catch(err => {
-                console.log('err: ', err);
-                setPostFormToSend(new FormData())
-                 Alert.alert('Failed')
-                props.navigation.navigate('Profile')
-            })
+            description.trim() !== '' &&
+            location.trim() !== '' &&
+            price.trim() !== '' &&
+            deliveryType.trim() !== '' &&
+            price.trim() !== '' &&
+            contacts.trim() !== '') {
+            dispatch(allActions.itemActions.setVisibleToTrue());
+            postFormToSend.append("title", title)
+            postFormToSend.append("description", description)
+            postFormToSend.append("location", location)
+            postFormToSend.append("category", category)
+            postFormToSend.append("price", price)
+            postFormToSend.append("deliveryType", deliveryType)
+            postFormToSend.append("contacts", contacts)
+            postFormToSend.append('date', new Date().toISOString().slice(0, 10))
+            requestFunctions.editItem(`https://graded-exercise-kidm.herokuapp.com/items/${data.id}`, token, postFormToSend)
+                .then(res => {
+                    console.log(res)
+                    dispatch(allActions.itemActions.setTrigger())
+                    dispatch(allActions.itemActions.setVisibleToFalse())
+                    props.navigation.navigate('Profile')
+                })
+                .catch(err => {
+                    console.log('err: ', err);
+                    setPostFormToSend(new FormData())
+                    Alert.alert('Failed')
+                    props.navigation.navigate('Profile')
+                })
 
-    } else {
-        Alert.alert('Fill all the input fields')
-    }
-        
+        } else {
+            Alert.alert('Fill all the input fields')
+        }
+
     }
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react'
 import allActions from '../src/actions'
-import { View, Text, Image, StyleSheet, Button } from 'react-native'
+import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
 const ProfileItemBig = (props) => {
@@ -9,13 +9,22 @@ const ProfileItemBig = (props) => {
     const requestFunctions = require('./functions/requestsFunctions')
     const currentUser = useSelector(state => state.currentUser)
     const deleteItem = () => {
-        requestFunctions.authorizedDeleteRequest(`https://graded-exercise-kidm.herokuapp.com/items/${data.id}`, currentUser.token)
-        .then(data => {
-            console.log('data: ', data);
-            props.navigation.navigate('Profile')
-            dispatch(allActions.itemActions.setTrigger())
-        })
-        .catch(err => console.log(err))
+        Alert.alert(
+            'Delete',
+            `Are you sure to delete ${data.title}?`,
+            [
+              {text: 'NO', onPress: () => console.log('NO Pressed'), style: 'cancel'},
+              {text: 'YES', onPress: () => {
+                requestFunctions.authorizedDeleteRequest(`https://graded-exercise-kidm.herokuapp.com/items/${data.id}`, currentUser.token)
+                .then(data => {
+                    console.log('data: ', data);
+                    props.navigation.navigate('Profile')
+                    dispatch(allActions.itemActions.setTrigger())
+                })
+                .catch(err => console.log(err))
+              }},
+            ]
+          );
     }
     return (
         <View style={{ flex: 1, alignContent: "center", backgroundColor: "#fff" }}>
