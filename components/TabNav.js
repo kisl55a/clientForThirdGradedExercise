@@ -45,13 +45,13 @@ const TabNav = (props) => {
             <Ionicons name="ios-home" color={color} size={size} />)
         }}
       />
-      <Tab.Screen name="Search"
+      {/* <Tab.Screen name="Search"
         component={Search}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-search" color={color} size={size} />)
         }}
-      />
+      /> */}
       {
         (currentUser.username === '' ? registrationTab() : profileTab())
       }

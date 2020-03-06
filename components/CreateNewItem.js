@@ -21,6 +21,7 @@ const CreateNewItem = (props) => {
     const [postFormToSend, setPostFormToSend] = useState('');
 
     const openImagePickerAsync = async () => {
+        dispatch(allActions.itemActions.setVisibleToTrue())
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
         if (permissionResult.granted === false) {
             alert("Permission to access camera roll is required!");
@@ -45,6 +46,7 @@ const CreateNewItem = (props) => {
             type: 'image/jpeg'
         });
         setPostFormToSend(postForm)
+        dispatch(allActions.itemActions.setVisibleToFalse())
     }
     const sendData = () => {
         if (title.trim() !== '' &&
@@ -53,8 +55,9 @@ const CreateNewItem = (props) => {
             price.trim() !== '' &&
             deliveryType.trim() !== '' &&
             price.trim() !== '' &&
-            contacts.trim() !== '') {
-        dispatch(allActions.itemActions.setVisibleToTrue())
+            contacts.trim() !== '' &&
+            category.trim() !== '') {
+            dispatch(allActions.itemActions.setVisibleToTrue())
             postFormToSend.append("title", title)
             postFormToSend.append("description", description)
             postFormToSend.append("location", location)
@@ -73,8 +76,10 @@ const CreateNewItem = (props) => {
                 .catch(err => {
                     console.log('err: ', err);
                     setPostFormToSend(new FormData())
-                     Alert.alert('Failed')
+                    Alert.alert('Failed')
                     props.navigation.navigate('Profile')
+                    dispatch(allActions.itemActions.setVisibleToFalse())
+
                 })
 
         } else {
