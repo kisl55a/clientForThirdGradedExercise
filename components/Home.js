@@ -68,7 +68,6 @@ const Home = () => {
                         value={searchWord}
                     />
                     <View>
-                    {/* <Entypo name="menu" size={30} color="#12A1D7" style={{ paddingRight: 10, paddingTop: 10 }} /> */}
                     <Picker
                         style={{ height: 25, width: 25, alignSelf: "flex-end" }}
                         selectedValue={searchParam}
@@ -81,7 +80,7 @@ const Home = () => {
                     </Picker>
                     </View>
                 </View>
-
+              <View style={styles.items}>
                 {(itemsData.length !== 0) ?
                     itemsData.map(element => {
                         return (
@@ -89,7 +88,8 @@ const Home = () => {
                         )
                     }) : <Text> No search results</Text>
                 }
-                {}
+                </View>  
+
             </View>
         </ScrollView>
     )
@@ -119,11 +119,11 @@ const styles = StyleSheet.create({
     searchBox: {
         alignItems: "center",
         height: 50,
-        width: "98%",
+        width: "95%",
         shadowColor: "#000",
         shadowOffset: {
             width: 15,
-            height: 0,
+            height: 15,
         },
         shadowOpacity: 0.20,
         shadowRadius: 2.41,

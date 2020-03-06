@@ -11,8 +11,10 @@ const ItemSmall = (props) => {
                         source={{ uri: `${props.data.images[0]}` }}
                     />
                 <View style={styles.itemText}>
-                    <Text style={{ fontSize: 40, textAlign: "center", width: 150 }}>{(props.data.title)}</Text>
-                    <Text style={{ fontSize: 30, fontWeight: "bold", textAlign: "center" }}> {props.data.price}€</Text>
+                <Text style={{ fontSize: 30, textAlign: "center", width: 150 }}>{(props.data.title)}</Text>
+                    <Text style={{ fontSize: 30, textAlign: "center", fontWeight:"700"}}>{props.data.price}€</Text>
+                    <Text style={{ fontSize: 15, textAlign: "center", width: 150 }}>{(props.data.location)}</Text>
+                    <Text style={{ fontSize: 15, textAlign: "center", width: 150, fontWeight:"300" }}>{(props.data.date)}</Text>
                 </View>
             </View>
         </TouchableOpacity >
