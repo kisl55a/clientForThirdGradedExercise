@@ -9,10 +9,10 @@ const Stack = createStackNavigator();
 const LoginRegisterNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="login" options={{ title: "Login" }}>
+      <Stack.Screen name="login" options={{ title: "Login", headerShown: false }}>
         {props => <Login {...props} />}
       </Stack.Screen>
-      <Stack.Screen name="registration" options={{ title: 'Registration' }} >
+      <Stack.Screen name="registration" options={{ title: 'Registration' , headerShown: false}} >
         {props => <Registration {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
