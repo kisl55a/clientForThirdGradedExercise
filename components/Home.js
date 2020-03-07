@@ -17,6 +17,10 @@ const Home = (props) => {
     const [itemsData, setItemsData] = useState([]);
     const [searchWord, setSearchWord] = useState('');
     const [searchParam, setSearchParam] = useState('location');
+
+
+
+
     useEffect(() => {
         dispatch(allActions.itemActions.setVisibleToTrue())
         fetch('https://graded-exercise-kidm.herokuapp.com/items/getAllItems')
@@ -24,7 +28,6 @@ const Home = (props) => {
             .then(data => {
                 dispatch(allActions.itemActions.setVisibleToFalse())
                 setItemsData(data)
-                // setDefaultData(data)
             })
             .catch(err => console.log(err))
     }, [trigger])
@@ -60,7 +63,7 @@ const Home = (props) => {
                         <Entypo name="menu" size={30} color="#12A1D7" style={{ paddingLeft: 10 }} />
                     </TouchableOpacity>
                     <TextInput
-                        style={{ width: "80%", marginLeft: '10%', marginRight: 'auto' }}
+                        style={{ width: "90%", marginLeft: '10%', marginRight: 'auto' }}
                         placeholder={`Search here...`}
                         name="searchWord"
                         onChangeText={(searchWord) => setSearchWord(searchWord)}
@@ -79,7 +82,7 @@ const Home = (props) => {
                     </Picker>
                     </View>
                 </View>
-              <View style={styles.items}>
+              <View>
                 {(itemsData.length !== 0) ?
                     itemsData.map(element => {
                         return (
@@ -99,16 +102,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: Constants.statusBarHeight,
         backgroundColor: '#fff',
-        alignItems: "center"
-    },
-    box: {
-        width: "95%",
-        height: 150,
-        borderRadius: 1,
-        borderWidth: 0.5,
-        borderColor: '#d6d7da',
-        alignItems: "center",
-        flexDirection: "row",
     },
     itemText: {
         fontSize: 20,
@@ -116,9 +109,11 @@ const styles = StyleSheet.create({
         marginLeft: 30
     },
     searchBox: {
+        alignSelf: "center",
         alignItems: "center",
         height: 50,
-        width: "95%",
+        width: "98%",
+        marginHorizontal: 3,
         shadowColor: "#000",
         shadowOffset: {
             width: 15,

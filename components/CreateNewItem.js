@@ -57,6 +57,10 @@ const CreateNewItem = (props) => {
             price.trim() !== '' &&
             contacts.trim() !== '' &&
             category.trim() !== '') {
+                let day = new Date().toISOString().slice(8, 10)
+                let mounth = new Date().toISOString().slice(5, 7)
+                let year = new Date().toISOString().slice(0,4)
+                let date = `${day}.${mounth}.${year}`
             dispatch(allActions.itemActions.setVisibleToTrue())
             postFormToSend.append("title", title)
             postFormToSend.append("description", description)
@@ -65,7 +69,7 @@ const CreateNewItem = (props) => {
             postFormToSend.append("price", price)
             postFormToSend.append("deliveryType", deliveryType)
             postFormToSend.append("contacts", contacts)
-            postFormToSend.append('date', new Date().toISOString().slice(0, 10))
+            postFormToSend.append('date', date)
             requestFunctions.createNewItem('https://graded-exercise-kidm.herokuapp.com/items', token, postFormToSend)
                 .then(res => {
                     console.log(res)

@@ -24,8 +24,9 @@ const ItemSmall = (props) => {
 const styles = StyleSheet.create({
 
     box: {
+        alignSelf: "center",
         backgroundColor: "#fff",
-        width: "100%",
+        width: "98%",
         marginVertical: 10,
         height: "auto",
         borderRadius: 4,
