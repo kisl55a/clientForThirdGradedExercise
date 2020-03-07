@@ -8,15 +8,15 @@ import EditItem from './EditItem';
 
 const Stack = createStackNavigator();
 
-const LoginRegisterNav = () => {
+const ProfileNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" options={{ title: 'Profile' }} >
+      <Stack.Screen name="Profile" options={{ title: 'Profile', headerShown: false }} >
         {props => <Profile {...props} />}
       </Stack.Screen>
 
-      <Stack.Screen name="Item" options={{ title: "Item" }}>
-        {props => <ProfileItemBig {...props} />}
+      <Stack.Screen name="Item"  options={({ route }) => ({ title: route.params.title })}>
+        {props => <ProfileItemBig {...props} home={false}/>}
       </Stack.Screen>
       <Stack.Screen name="CreateNewItem" options={{ title: "Create new item" }}>
         {props => <CreateNewItem {...props} />}
@@ -28,4 +28,4 @@ const LoginRegisterNav = () => {
   )
 }
 
-export default LoginRegisterNav
+export default ProfileNav

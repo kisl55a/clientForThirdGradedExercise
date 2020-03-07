@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TextInput, Picker, Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import ItemSmall from './ItemSmall'
-import { Ionicons, Entypo, AntDesign, FontAwesome } from 'react-native-vector-icons';
+import ProfileItemSmall from './ProfileItemSmall'
+import { Entypo } from 'react-native-vector-icons';
 import Constants from 'expo-constants';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ProgressLoader from 'rn-progress-loader';
 import allActions from '../src/actions'
 
 
-const Home = () => {
+const Home = (props) => {
     const dispatch = useDispatch();
     const visible = useSelector(state => state.currentItem.visible);
     const trigger = useSelector(state => state.currentItem.trigger);
     const requestFunctions = require('./functions/requestsFunctions');
     const [itemsData, setItemsData] = useState([]);
-    const [defaultData, setDefaultData] = useState([]);
     const [searchWord, setSearchWord] = useState('');
     const [searchParam, setSearchParam] = useState('location');
     useEffect(() => {
@@ -84,7 +83,7 @@ const Home = () => {
                 {(itemsData.length !== 0) ?
                     itemsData.map(element => {
                         return (
-                            <ItemSmall key={element.id} data={element}></ItemSmall>
+                            <ProfileItemSmall {...props} key={element.id} data={element}></ProfileItemSmall>
                         )
                     }) : <Text> No search results</Text>
                 }

@@ -2,10 +2,10 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import { Ionicons, Entypo, AntDesign } from 'react-native-vector-icons';
-import Search from './Search';
 import LoginRegisterNav from './LoginRegisterNav';
 import { useSelector } from 'react-redux';
 import ProfileNav from './ProfileNav';
+import HomeNav from './HomeNav'
 
 const Tab = createBottomTabNavigator();
 
@@ -39,19 +39,12 @@ const TabNav = (props) => {
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomeNav}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-home" color={color} size={size} />)
         }}
       />
-      {/* <Tab.Screen name="Search"
-        component={Search}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-search" color={color} size={size} />)
-        }}
-      /> */}
       {
         (currentUser.username === '' ? registrationTab() : profileTab())
       }
