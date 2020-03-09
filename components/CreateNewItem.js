@@ -21,7 +21,6 @@ const CreateNewItem = (props) => {
     const [postFormToSend, setPostFormToSend] = useState('');
 
     const openImagePickerAsync = async () => {
-        dispatch(allActions.itemActions.setVisibleToTrue())
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
         if (permissionResult.granted === false) {
             alert("Permission to access camera roll is required!");
@@ -30,6 +29,7 @@ const CreateNewItem = (props) => {
 
         let pickerResult = await ImagePicker.launchImageLibraryAsync();
         console.log(pickerResult);
+        dispatch(allActions.itemActions.setVisibleToTrue())
 
         if (pickerResult.cancelled == true) {
             alert('Image picker cancelled or failed');

@@ -8,7 +8,6 @@ const Login = (props) => {
     const dispatch = useDispatch();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
     const requestsFunctions = require('./functions/requestsFunctions')
 
     const sendLoginData = () => {
@@ -19,7 +18,6 @@ const Login = (props) => {
                 .then(json => {
                     console.log("Login successful")
                     console.log("Received following JSON");
-                    setMessage('')
                     dispatch(allActions.userActions.setUser({
                         username: username,
                         token: json.token
@@ -29,7 +27,7 @@ const Login = (props) => {
                 .catch(error => {
                     console.log("Error message:")
                     console.log(error.message)
-                    setMessage('Invalid username or password')
+                    Alert.alert('Wrong credentials')
                 });
         }
 
