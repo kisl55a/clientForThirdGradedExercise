@@ -2,7 +2,6 @@ import React from 'react'
 import allActions from '../src/actions'
 import { View, Text, Image, StyleSheet, Button, Alert, ScrollView, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { Entypo } from 'react-native-vector-icons';
 
 const ProfileItemBig = (props) => {
     const data = props.route.params;
@@ -73,9 +72,24 @@ const ProfileItemBig = (props) => {
           </View>
           {
               (props.home !== true ?
-              <View>
-            <Button title="Delete" onPress={() => deleteItem()}/>
-              <Button title="Edit" onPress={() => {props.navigation.navigate('EditItem',{...data})}}/>
+              <View style={{flexDirection: "row", marginHorizontal: 10, marginBottom: 10}}>    
+              <TouchableOpacity
+              style={{      
+                borderColor: 5,
+                alignItems: 'center',
+                backgroundColor: '#12A1D7',
+                padding: 10,
+                width: "50%",
+              }}
+              onPress={() => {props.navigation.navigate('EditItem',{...data})}}><Text style={{color:'white'}}>Edit</Text></TouchableOpacity>
+              <TouchableOpacity  onPress={() => deleteItem()} style={{      
+                    borderColor: 5,
+                    alignItems: 'center',
+                    backgroundColor: '#EE5E68',
+                    padding: 10,
+                    width: "50%",
+    
+              }}><Text style={{color:'white'}}>Delete</Text></TouchableOpacity>
               </View> 
               :
               <></>
