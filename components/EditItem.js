@@ -89,100 +89,106 @@ const EditItem = (props) => {
     return (
         <ScrollView>
 
-            <View style={styles.container}>
-                <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{}</Text>
-                <Text>Title</Text>
-                <TextInput
-                    name="title"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
-                    onChangeText={(title) => setTitle(title)}
-                    value={title}
-                />
+        <View style={styles.container}>
+            <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{}</Text>
+            <TextInput
+                name="title"
+                placeholder="Title"
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
+                onChangeText={(title) => setTitle(title)}
+                value={title}
+            />
+            <TextInput
+                name="description"
+                placeholder="Description"
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
+                onChangeText={(description) => setDescription(description)}
+                value={description}
+            />
+            <TextInput
+                name="location"
+                placeholder="Location"
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
+                onChangeText={(location) => setLocation(location)}
+                value={location}
+            />
+           <TextInput
+                name="category"
+                placeholder="Category"
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
+                onChangeText={(category) => { setCategory(category) }}
+                value={category}
+            />
+            <TextInput
+                keyboardType={'numeric'}
+                name="price"
+                placeholder="0"
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
+                onChangeText={(price) => setPrice(price)}
+                value={price}
+            />
+            <Picker
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
 
-                <Text>Description</Text>
-                <TextInput
-                    name="description"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
-                    onChangeText={(description) => setDescription(description)}
-                    value={description}
-                />
-                <Text>Location</Text>
-                <TextInput
-                    name="location"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
-                    onChangeText={(location) => setLocation(location)}
-                    value={location}
-                />
-                <Text>Category</Text>
-                <TextInput
-                    name="category"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
-                    onChangeText={(category) => { setCategory(category) }}
-                    value={category}
-                />
-                <Text>Price</Text>
-                <TextInput
-                    keyboardType={'numeric'}
-                    name="price"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
-                    onChangeText={(price) => setPrice(price)}
-                    value={price}
-                />
-                <Text>Delivery type</Text>
-                <Picker
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                selectedValue={deliveryType}
+                onValueChange={(itemValue) =>
+                    setDeliveryType(itemValue)
+                }>
+                <Picker.Item label="PickUp" value="Pickup" />
+                <Picker.Item label="Delivery" value="Delivery" />
+            </Picker>
+            <TextInput
+                name="contacts"
+                placeholder="Contacts"
+                style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
+                onChangeText={(contacts) => setContacts(contacts)}
+                value={contacts}
+            />
+            <TouchableOpacity onPress={() => openImagePickerAsync()} style={{
+                borderWidth: 1,
+                borderColor: 5,
+                alignItems: 'center',
+                backgroundColor: 'gray',
+                padding: 10,
+                marginTop: 10,
+                width: "90%",
+                borderRadius: 3,
+                marginBottom: 10
+                 }}>
+                <Text style={{color:"white"}}>Pick a photo</Text>
+            </TouchableOpacity>
 
-                    selectedValue={deliveryType}
-                    onValueChange={(itemValue) =>
-                        setDeliveryType(itemValue)
-                    }>
-                    <Picker.Item label="PickUp" value="Pickup" />
-                    <Picker.Item label="Delivery" value="Delivery" />
-                </Picker>
+            <TouchableOpacity
+                style={{
+                    borderWidth: 1,
+                    borderColor: 5,
+                    alignItems: 'center',
+                    backgroundColor: '#009d00',
+                    padding: 10,
+                    width: 150,
+                    borderRadius: 5,
+                    marginBottom: 10
+                }}
+                onPress={() => sendData()}>
+                <Text style={{ color: "white" }}>Submit </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={{
+                    borderWidth: 1,
+                    borderColor: 5,
+                    alignItems: 'center',
+                    backgroundColor: '#DDDDDD',
+                    padding: 10,
+                    borderRadius: 5,
+                    width: 150,
+                    marginBottom: 10
+                }}
+                onPress={() => props.navigation.navigate('Profile')}>
+                <Text>Back</Text>
+            </TouchableOpacity>
 
-                <Text>Contacts</Text>
-                <TextInput
-                    name="password"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
-                    onChangeText={(contacts) => setContacts(contacts)}
-                    value={contacts}
-                />
-                <Text>Photos</Text>
-                <TouchableOpacity onPress={() => openImagePickerAsync()} style={{ borderWidth: 1, borderColor: 'black' }}>
-                    <Text>Pick a photo</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={{
-                        borderWidth: 1,
-                        borderColor: 5,
-                        alignItems: 'center',
-                        backgroundColor: '#009d00',
-                        padding: 10,
-                        width: 150,
-                        borderRadius: 5,
-                        marginBottom: 10
-                    }}
-                    onPress={() => sendData()}>
-                    <Text style={{ color: "white" }}>Submit </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        borderWidth: 1,
-                        borderColor: 5,
-                        alignItems: 'center',
-                        backgroundColor: '#DDDDDD',
-                        padding: 10,
-                        borderRadius: 5,
-                        width: 150,
-                        marginBottom: 10
-                    }}
-                    onPress={() => { }}>
-                    <Text>Login</Text>
-                </TouchableOpacity>
-
-            </View>
-        </ScrollView>
+        </View>
+    </ScrollView>
     )
 }
 

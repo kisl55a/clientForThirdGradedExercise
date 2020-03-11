@@ -33,6 +33,7 @@ const CreateNewItem = (props) => {
 
         if (pickerResult.cancelled == true) {
             alert('Image picker cancelled or failed');
+        dispatch(allActions.itemActions.setVisibleToFalse())
             return;
         }
 
@@ -98,46 +99,44 @@ const CreateNewItem = (props) => {
 
             <View style={styles.container}>
                 <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{}</Text>
-                <Text>Title</Text>
                 <TextInput
                     name="title"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    placeholder="Title"
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
                     onChangeText={(title) => setTitle(title)}
                     value={title}
                 />
-
-                <Text>Description</Text>
                 <TextInput
                     name="description"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    placeholder="Description"
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
                     onChangeText={(description) => setDescription(description)}
                     value={description}
                 />
-                <Text>Location</Text>
                 <TextInput
                     name="location"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    placeholder="Location"
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
                     onChangeText={(location) => setLocation(location)}
                     value={location}
                 />
-                <Text>Category</Text>
-                <TextInput
+               <TextInput
                     name="category"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    placeholder="Category"
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
                     onChangeText={(category) => { setCategory(category) }}
                     value={category}
                 />
-                <Text>Price</Text>
                 <TextInput
                     keyboardType={'numeric'}
                     name="price"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    placeholder="0"
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
                     onChangeText={(price) => setPrice(price)}
                     value={price}
                 />
-                <Text>Delivery type</Text>
                 <Picker
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
 
                     selectedValue={deliveryType}
                     onValueChange={(itemValue) =>
@@ -146,17 +145,25 @@ const CreateNewItem = (props) => {
                     <Picker.Item label="PickUp" value="Pickup" />
                     <Picker.Item label="Delivery" value="Delivery" />
                 </Picker>
-
-                <Text>Contacts</Text>
                 <TextInput
-                    name="password"
-                    style={{ height: 25, width: "90%", borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 15 }}
+                    name="contacts"
+                    placeholder="Contacts"
+                    style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
                     onChangeText={(contacts) => setContacts(contacts)}
                     value={contacts}
                 />
-                <Text>Photos</Text>
-                <TouchableOpacity onPress={() => openImagePickerAsync()} style={{ borderWidth: 1, borderColor: 'black' }}>
-                    <Text>Pick a photo</Text>
+                <TouchableOpacity onPress={() => openImagePickerAsync()} style={{
+                    borderWidth: 1,
+                    borderColor: 5,
+                    alignItems: 'center',
+                    backgroundColor: 'gray',
+                    padding: 10,
+                    marginTop: 10,
+                    width: "90%",
+                    borderRadius: 3,
+                    marginBottom: 10
+                     }}>
+                    <Text style={{color:"white"}}>Pick a photo</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity

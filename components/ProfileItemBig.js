@@ -64,6 +64,10 @@ const ProfileItemBig = (props) => {
                 <Text>{data.category.charAt(0).toUpperCase() + data.category.slice(1)}</Text>
                 </View>
                 <View style={styles.option}>
+                <Text style={{color:'#000', opacity:.54}}>Delivery</Text>
+                <Text>{data.deliveryType.charAt(0).toUpperCase() + data.deliveryType.slice(1)}</Text>
+                </View>
+                <View style={styles.option}>
                 <Text style={{color:'#000', opacity:.54}}>Contacts</Text>
                 <Text style={{width: 100, textAlign: "right"}}>{data.contacts.charAt(0).toUpperCase() + data.contacts.slice(1)}</Text>
                 </View>
