@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Picker } from 'react-native'
+import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Picker, Image } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker'
 import { useSelector, useDispatch } from 'react-redux'
@@ -16,9 +16,10 @@ const CreateNewItem = (props) => {
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
     const [price, setPrice] = useState('');
+    const [photos, setPhotos] = useState([]);
     const [deliveryType, setDeliveryType] = useState('shipping')
     const [contacts, setContacts] = useState('');
-    const [postFormToSend, setPostFormToSend] = useState('');
+    const [postFormToSend, setPostFormToSend] = useState(new FormData());
 
     const openImagePickerAsync = async () => {
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -26,30 +27,32 @@ const CreateNewItem = (props) => {
             alert("Permission to access camera roll is required!");
             return;
         }
+        console.log("photos :",photos)
+        if (photos.length > 3) {
+            alert('To many photos')
+        } else {
+            let pickerResult = await ImagePicker.launchImageLibraryAsync();
+            if (pickerResult.cancelled == true) {
+                // alert('Image picker cancelled or failed');
+                dispatch(allActions.itemActions.setVisibleToFalse())
+                return;
+            }
+            const fileNameSplit = pickerResult.uri.split('/');
+            const fileName = fileNameSplit[fileNameSplit.length - 1];
+            dispatch(allActions.itemActions.setVisibleToTrue())
+            await  setPhotos(photos.concat([{
+                uri: pickerResult.uri,
+                name: fileName,
+                type: 'image/jpeg'
+            }]))
+     
 
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
-        dispatch(allActions.itemActions.setVisibleToTrue())
-
-        if (pickerResult.cancelled == true) {
-            alert('Image picker cancelled or failed');
-        dispatch(allActions.itemActions.setVisibleToFalse())
-            return;
-        }
-
-        const fileNameSplit = pickerResult.uri.split('/');
-        const fileName = fileNameSplit[fileNameSplit.length - 1];
-
-        let postForm = new FormData();
-        postForm.append('images', {
-            uri: pickerResult.uri,
-            name: fileName,
-            type: 'image/jpeg'
-        });
-        setPostFormToSend(postForm)
+    //   await  setPostFormToSend(postForm)
+        // console.log('postForm: ', postFormToSend);
         dispatch(allActions.itemActions.setVisibleToFalse())
     }
-    const sendData = () => {
+    }
+    const sendData = async () => {
         if (title.trim() !== '' &&
             description.trim() !== '' &&
             location.trim() !== '' &&
@@ -57,11 +60,19 @@ const CreateNewItem = (props) => {
             deliveryType.trim() !== '' &&
             price.trim() !== '' &&
             contacts.trim() !== '' &&
-            category.trim() !== '') {
+            category.trim() !== '' &&
+            photos.length !== 0) {
+                for (let i = 0; i < photos.length; i++) {
+                    await postFormToSend.append('images', {
+                         uri: photos[i].uri,  
+                         name: photos[i].name,
+                         type: 'image/jpeg'
+                     })
+                 }
                 let day = new Date().toISOString().slice(8, 10)
                 let mounth = new Date().toISOString().slice(5, 7)
-                let year = new Date().toISOString().slice(0,4)
-                let date = `${day}.${mounth}.${year}`
+            let year = new Date().toISOString().slice(0, 4)
+            let date = `${day}.${mounth}.${year}`
             dispatch(allActions.itemActions.setVisibleToTrue())
             postFormToSend.append("title", title)
             postFormToSend.append("description", description)
@@ -71,6 +82,7 @@ const CreateNewItem = (props) => {
             postFormToSend.append("deliveryType", deliveryType)
             postFormToSend.append("contacts", contacts)
             postFormToSend.append('date', date)
+            console.log('postFormToSend final: ', postFormToSend);
             requestFunctions.createNewItem('https://graded-exercise-kidm.herokuapp.com/items', token, postFormToSend)
                 .then(res => {
                     console.log(res)
@@ -95,7 +107,9 @@ const CreateNewItem = (props) => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={{
+            backgroundColor: "#fff"
+        }}>
 
             <View style={styles.container}>
                 <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{}</Text>
@@ -120,7 +134,7 @@ const CreateNewItem = (props) => {
                     onChangeText={(location) => setLocation(location)}
                     value={location}
                 />
-               <TextInput
+                <TextInput
                     name="category"
                     placeholder="Category"
                     style={{ height: 35, textAlign: "center", width: "90%", fontSize: 18, borderColor: 'gray', borderWidth: 1, borderRadius: 3, marginBottom: 15 }}
@@ -152,6 +166,11 @@ const CreateNewItem = (props) => {
                     onChangeText={(contacts) => setContacts(contacts)}
                     value={contacts}
                 />
+                <View style={{flexDirection: "row"}}>
+                {photos.map((image,id) => {
+                    return <Image source={{uri: image.uri}} key={id} style={{ width: 75, height: 75, marginHorizontal: 5}} />
+                })}
+                </View>
                 <TouchableOpacity onPress={() => openImagePickerAsync()} style={{
                     borderWidth: 1,
                     borderColor: 5,
@@ -162,8 +181,8 @@ const CreateNewItem = (props) => {
                     width: "90%",
                     borderRadius: 3,
                     marginBottom: 10
-                     }}>
-                    <Text style={{color:"white"}}>Pick a photo</Text>
+                }}>
+                    <Text style={{ color: "white" }}>Pick a photo</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity

@@ -2,6 +2,7 @@ import React from 'react'
 import allActions from '../src/actions'
 import { View, Text, Image, StyleSheet, Button, Alert, ScrollView, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
+import { SliderBox } from "react-native-image-slider-box";
 
 const ProfileItemBig = (props) => {
     const data = props.route.params;
@@ -31,14 +32,14 @@ const ProfileItemBig = (props) => {
           <View style={{ flex: 1, alignContent:"center"}}>
      
 {(data.images.length !== 0 ? 
-  <Image
+             <SliderBox
             style={{ 
               height: 330,
               width: "100%",
               borderWidth: 1,
             }}
-            source={{ uri: `${data.images[0]}` }}
-            /> 
+            images={data.images} 
+            />
             :
             <Image
             style={{ width: "90%", height: 300, borderRadius: 4, alignSelf: "center", opacity: .5}}

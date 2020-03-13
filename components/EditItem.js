@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Picker } from 'react-native'
+import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Picker, Image } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker'
 import { useSelector, useDispatch } from 'react-redux'
@@ -43,6 +43,8 @@ const EditItem = (props) => {
             name: fileName,
             type: 'image/jpeg'
         });
+        console.log('postFormToSend: ', postFormToSend);
+
         setPostFormToSend(postForm)
     }
     const sendData = () => {
@@ -77,6 +79,7 @@ const EditItem = (props) => {
                     console.log('err: ', err);
                     setPostFormToSend(new FormData())
                     Alert.alert('Failed')
+                    dispatch(allActions.itemActions.setVisibleToFalse())
                     props.navigation.navigate('Profile')
                 })
 
@@ -87,10 +90,11 @@ const EditItem = (props) => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={{
+        backgroundColor: '#fff',
+        }}>
 
         <View style={styles.container}>
-            <Text style={{ fontSize: 20, marginBottom: 20, color: "red" }}>{}</Text>
             <TextInput
                 name="title"
                 placeholder="Title"
