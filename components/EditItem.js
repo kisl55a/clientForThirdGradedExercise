@@ -18,6 +18,7 @@ const EditItem = (props) => {
     const [deliveryType, setDeliveryType] = useState(data.deliveryType)
     const [contacts, setContacts] = useState(data.contacts);
     const [postFormToSend, setPostFormToSend] = useState(new FormData());
+    const [photos, setPhotos] = useState([]);
 
     const openImagePickerAsync = async () => {
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -25,29 +26,27 @@ const EditItem = (props) => {
             alert("Permission to access camera roll is required!");
             return;
         }
-
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
-
-        if (pickerResult.cancelled == true) {
-            alert('Image picker cancelled or failed');
-            return;
+        console.log("photos :", photos)
+        if (photos.length > 3) {
+            alert('To many photos')
+        } else {
+            let pickerResult = await ImagePicker.launchImageLibraryAsync();
+            if (pickerResult.cancelled == true) {
+                dispatch(allActions.itemActions.setVisibleToFalse())
+                return;
+            }
+            const fileNameSplit = pickerResult.uri.split('/');
+            const fileName = fileNameSplit[fileNameSplit.length - 1];
+            dispatch(allActions.itemActions.setVisibleToTrue())
+            await setPhotos(photos.concat([{
+                uri: pickerResult.uri,
+                name: fileName,
+                type: 'image/jpeg'
+            }]))
+            dispatch(allActions.itemActions.setVisibleToFalse())
         }
-
-        const fileNameSplit = pickerResult.uri.split('/');
-        const fileName = fileNameSplit[fileNameSplit.length - 1];
-
-        let postForm = new FormData();
-        postForm.append('images', {
-            uri: pickerResult.uri,
-            name: fileName,
-            type: 'image/jpeg'
-        });
-        console.log('postFormToSend: ', postFormToSend);
-
-        setPostFormToSend(postForm)
     }
-    const sendData = () => {
+    const sendData = async () => {
         if (title.trim() !== '' &&
             description.trim() !== '' &&
             location.trim() !== '' &&
@@ -55,6 +54,15 @@ const EditItem = (props) => {
             deliveryType.trim() !== '' &&
             price.trim() !== '' &&
             contacts.trim() !== '') {
+                if(photos.length !== 0){
+                    for (let i = 0; i < photos.length; i++) {
+                        await postFormToSend.append('images', {
+                             uri: photos[i].uri,  
+                             name: photos[i].name,
+                             type: 'image/jpeg'
+                         })
+                     }
+                }
                 let day = new Date().toISOString().slice(8, 10)
                 let mounth = new Date().toISOString().slice(5, 7)
                 let year = new Date().toISOString().slice(0,4)
@@ -148,6 +156,11 @@ const EditItem = (props) => {
                 onChangeText={(contacts) => setContacts(contacts)}
                 value={contacts}
             />
+             <View style={{ flexDirection: "row" }}>
+                    {photos.map((image, id) => {
+                        return <Image source={{ uri: image.uri }} key={id} style={{ width: 75, height: 75, marginHorizontal: 5 }} />
+                    })}
+                </View>
             <TouchableOpacity onPress={() => openImagePickerAsync()} style={{
                 borderWidth: 1,
                 borderColor: 5,

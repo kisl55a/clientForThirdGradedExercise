@@ -27,30 +27,25 @@ const CreateNewItem = (props) => {
             alert("Permission to access camera roll is required!");
             return;
         }
-        console.log("photos :",photos)
+        console.log("photos :", photos)
         if (photos.length > 3) {
             alert('To many photos')
         } else {
             let pickerResult = await ImagePicker.launchImageLibraryAsync();
             if (pickerResult.cancelled == true) {
-                // alert('Image picker cancelled or failed');
                 dispatch(allActions.itemActions.setVisibleToFalse())
                 return;
             }
             const fileNameSplit = pickerResult.uri.split('/');
             const fileName = fileNameSplit[fileNameSplit.length - 1];
             dispatch(allActions.itemActions.setVisibleToTrue())
-            await  setPhotos(photos.concat([{
+            await setPhotos(photos.concat([{
                 uri: pickerResult.uri,
                 name: fileName,
                 type: 'image/jpeg'
             }]))
-     
-
-    //   await  setPostFormToSend(postForm)
-        // console.log('postForm: ', postFormToSend);
-        dispatch(allActions.itemActions.setVisibleToFalse())
-    }
+            dispatch(allActions.itemActions.setVisibleToFalse())
+        }
     }
     const sendData = async () => {
         if (title.trim() !== '' &&
@@ -62,15 +57,15 @@ const CreateNewItem = (props) => {
             contacts.trim() !== '' &&
             category.trim() !== '' &&
             photos.length !== 0) {
-                for (let i = 0; i < photos.length; i++) {
-                    await postFormToSend.append('images', {
-                         uri: photos[i].uri,  
-                         name: photos[i].name,
-                         type: 'image/jpeg'
-                     })
-                 }
-                let day = new Date().toISOString().slice(8, 10)
-                let mounth = new Date().toISOString().slice(5, 7)
+            for (let i = 0; i < photos.length; i++) {
+                await postFormToSend.append('images', {
+                    uri: photos[i].uri,
+                    name: photos[i].name,
+                    type: 'image/jpeg'
+                })
+            }
+            let day = new Date().toISOString().slice(8, 10)
+            let mounth = new Date().toISOString().slice(5, 7)
             let year = new Date().toISOString().slice(0, 4)
             let date = `${day}.${mounth}.${year}`
             dispatch(allActions.itemActions.setVisibleToTrue())
@@ -166,10 +161,10 @@ const CreateNewItem = (props) => {
                     onChangeText={(contacts) => setContacts(contacts)}
                     value={contacts}
                 />
-                <View style={{flexDirection: "row"}}>
-                {photos.map((image,id) => {
-                    return <Image source={{uri: image.uri}} key={id} style={{ width: 75, height: 75, marginHorizontal: 5}} />
-                })}
+                <View style={{ flexDirection: "row" }}>
+                    {photos.map((image, id) => {
+                        return <Image source={{ uri: image.uri }} key={id} style={{ width: 75, height: 75, marginHorizontal: 5 }} />
+                    })}
                 </View>
                 <TouchableOpacity onPress={() => openImagePickerAsync()} style={{
                     borderWidth: 1,
